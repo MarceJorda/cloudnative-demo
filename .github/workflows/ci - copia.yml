@@ -1,15 +1,15 @@
-name: CI Pipeline
+name: CI-CD Pipeline
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build-test:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Setup Node
@@ -25,3 +25,6 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t cloudnative-demo:latest .
+
+      - name: Deploy to Kubernetes
+        run: kubectl apply -f k8s/deployment.yaml
