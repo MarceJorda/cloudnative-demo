@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudnative-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloudnative-demo
+  template:
+    metadata:
+      labels:
+        app: cloudnative-demo
+    spec:
+      containers:
+        - name: app
+          image: cloudnative-demo:latest
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
